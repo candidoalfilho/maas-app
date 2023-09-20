@@ -15,12 +15,15 @@ class CreateAlertScreen extends StatefulWidget {
     'Engarrafamento'
   ];
 
+  static const importanceItems = ['Leve', 'Moderada', 'Urgente'];
+
   @override
   State<CreateAlertScreen> createState() => _CreateAlertScreenState();
 }
 
 class _CreateAlertScreenState extends State<CreateAlertScreen> {
   var chosenItem = CreateAlertScreen.alertItems[0];
+  var chosenImportance = CreateAlertScreen.importanceItems[0];
 
   var locationController = TextEditingController();
 
@@ -66,11 +69,30 @@ class _CreateAlertScreenState extends State<CreateAlertScreen> {
                       SizedBox(
                         width: 8,
                       ),
-                      Expanded(
-                        child: TextFormField(),
+                      Container(
+                        height: 50,
+                        width: 250,
+                        padding: EdgeInsets.only(bottom: 10, left: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            border: Border.all(color: Colors.grey.shade200),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: TextFormField(
+                          controller: locationController,
+                          decoration: InputDecoration(
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                          ),
+                        ),
                       )
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 5,
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 15),
@@ -99,6 +121,9 @@ class _CreateAlertScreenState extends State<CreateAlertScreen> {
                       )
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 30,
                 ),
                 Divider(
                   thickness: 3,
@@ -131,9 +156,23 @@ class _CreateAlertScreenState extends State<CreateAlertScreen> {
                       SizedBox(
                         width: 8,
                       ),
-                      Expanded(
+                      Container(
+                        height: 50,
+                        width: 250,
+                        padding: EdgeInsets.only(bottom: 10, left: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            border: Border.all(color: Colors.grey.shade200),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
                         child: TextFormField(
                           controller: descriptionController,
+                          decoration: InputDecoration(
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                          ),
                         ),
                       )
                     ],
@@ -141,6 +180,37 @@ class _CreateAlertScreenState extends State<CreateAlertScreen> {
                 ),
                 SizedBox(
                   height: 10,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 15),
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      Text(
+                        'Grau de importância',
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      DropdownButton<String>(
+                        value: chosenImportance,
+                        items: CreateAlertScreen.importanceItems
+                            .map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          chosenImportance = value;
+                          setState(() {});
+                        },
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
                 ),
                 Center(
                   child: ElevatedButton(
@@ -151,6 +221,9 @@ class _CreateAlertScreenState extends State<CreateAlertScreen> {
                       alertsData.addAlert(description, type);
                       Navigator.of(context).pop();
                     },
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.grey.shade800)),
                   ),
                 )
               ],

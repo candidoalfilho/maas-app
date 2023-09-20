@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:maasapp/providers/alerts.dart';
 import 'package:maasapp/providers/auth.dart';
 import 'package:maasapp/providers/travels.dart';
+import 'package:maasapp/screens/config_screen.dart';
 import 'package:maasapp/screens/create_alert_screen.dart';
 import 'package:maasapp/screens/profile_screen.dart';
 import 'package:maasapp/screens/travel_screen.dart';
@@ -19,10 +20,12 @@ class MainScreen extends StatelessWidget {
     await Provider.of<Alerts>(context, listen: false).fetchAllAlerts();
   }
 
+  var _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
@@ -30,19 +33,25 @@ class MainScreen extends StatelessWidget {
               label: 'Viajar',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.spatial_audio_off_outlined), label: 'Alertas')
+                icon: Icon(Icons.spatial_audio_off_outlined), label: 'Alertas'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.all_inbox_outlined), label: 'Configurações')
           ],
           onTap: (value) {
             var routeMap = {
               0: MainScreen(),
               1: TravelScreen(),
-              2: CreateAlertScreen()
+              2: CreateAlertScreen(),
+              3: ConfigurationScreen()
             };
 
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => routeMap[value],
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => routeMap[value],
+                transitionDuration: Duration(milliseconds: 200),
+                transitionsBuilder: (_, a, __, c) =>
+                    FadeTransition(opacity: a, child: c),
               ),
             );
           },
@@ -62,14 +71,9 @@ class MainScreen extends StatelessWidget {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            ElevatedButton(
-                                onPressed: () =>
-                                    Provider.of<Auth>(context, listen: false)
-                                        .logout(),
-                                child: Text("sair")),
                             Padding(
                               padding:
-                                  EdgeInsets.only(left: 20, right: 20, top: 20),
+                                  EdgeInsets.only(left: 20, right: 20, top: 30),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -90,59 +94,53 @@ class MainScreen extends StatelessWidget {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(127)),
-                                      border: Border.all(
-                                          color: Colors.white30,
-                                          strokeAlign: StrokeAlign.inside,
-                                          width: 3),
-                                      color: const Color.fromRGBO(
-                                        255,
-                                        255,
-                                        255,
-                                        .27,
-                                      ),
-                                    ),
-                                    width: 282,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(127)),
+                                        border: Border.all(
+                                          color: Colors.grey.shade300,
+                                          width: 3,
+                                        ),
+                                        color: Colors.grey.shade100),
+                                    width: 272,
                                     height: 53,
                                     padding: const EdgeInsets.only(
                                         left: 20, right: 20),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Icon(
-                                          Icons.search,
-                                          color: Colors.black,
-                                        ),
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
+                                        //Icon(
+                                        // Icons.search,
+                                        // color: Color.fromRGBO(255, 255, 255, .8),
+                                        // ),
+                                        Expanded(
                                           child: Container(
-                                            width: 150,
-                                            color: Color.fromRGBO(
-                                                217, 217, 217, 1),
                                             margin: EdgeInsets.only(
                                                 left: 8, top: 5),
                                             child: TextFormField(
-                                              textAlign: TextAlign.center,
+                                              controller: _searchController,
                                               style: TextStyle(
-                                                  decoration:
-                                                      TextDecoration.none),
+                                                decoration: TextDecoration.none,
+                                              ),
                                               decoration: InputDecoration(
-                                                  border: InputBorder.none,
-                                                  labelText: 'Pesquisar',
-                                                  labelStyle: TextStyle(
-                                                    fontSize: 18,
-                                                    decoration:
-                                                        TextDecoration.none,
-                                                  )),
+                                                border: InputBorder.none,
+                                                hintText: 'Pesquisar',
+                                                hintStyle: TextStyle(
+                                                  fontSize: 18,
+                                                  decoration:
+                                                      TextDecoration.none,
+                                                  color: Colors.grey.shade500,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                        Icon(
-                                          Icons.settings,
-                                        ),
+                                        IconButton(
+                                            icon: Icon(
+                                              Icons.search,
+                                              color: Colors.grey.shade500,
+                                            ),
+                                            onPressed: () {})
                                       ],
                                     ),
                                   )

@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<Auth>(
           builder: (ctx, authData, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Fit League',
             theme: ThemeData(
                 primarySwatch: Colors.blue,
