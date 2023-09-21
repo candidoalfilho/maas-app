@@ -1,16 +1,31 @@
-# maasapp
+# MaasApp
 
-A new Flutter project.
+O MaasApp é um aplicativo inovador, com a proposta de facilitar a mobilidade urbana em diversas malhas urbanas, desenvolvido por um grupo de desenvolvedores capacitados como projeto do terceiro ano da FIAP.
 
-## Getting Started
+## Conteúdo
 
-This project is a starting point for a Flutter application.
+O MaasApp é um App desenvolvido com Flutter e Dart, com suporte para IOS e Android. Esse aplicativo auxilia com rotas para viagens, registra eventos que ocorrem em proximidades que podem impactar na mobilidade, além de ser altamente personalizado para o usuário. Toda essa infraestrutura leva em conta conceitos de UX e UI para melhorar a experiência do usuário.
+Algumas considerações sobre a segurança da aplicação são:
 
-A few resources to get you started if this is your first Flutter project:
+- Autenticação - A autenticação da aplicação é integrada ao Firebase, apenas é possível explorar as funcionalidades da aplicação a partir do Login.
+- CORS - O CORS assegura segurança nas chamadas HTTP da aplicação.
+- Permissões - O acesso a determinadas funcionalidades da aplicação é resguardada a determinadas permissões de usuários por meio da verificação nas Functions do Firebase.
+- Token - O acesso a chamadas HTTP necessita de um token de usuário autenticado para realizar consultas ao Banco de Dados.
+- Imagens - As imagens relativas ao App estão armazenadas no Bucket do Firebase.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Instalação e utilização
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```sh
+1- Baixe o arquivo apk contido nesse repositório
+2- Transfira esse apk para um dispositivo Android (emuladores também inclusos)
+3- Conceda permissão para download desse App no seu dispositivo
+4- Abra a aplicação
+5- Crie uma conta com email e senha
+6- Aproveite o aplicativo
+```
+## Feedback
+I look forward to hearing your feedback, this is a pretty simple app but it makes me optimistic, it is a cornerstone of what is coming.
+Feel free to contact me and give me your impressions about the app, your opinion matters.
+
+
+
