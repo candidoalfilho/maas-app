@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:maasapp/providers/users.dart';
+import 'package:maasapp/screens/create_alert_screen.dart';
+import 'package:maasapp/screens/main_screen.dart';
+import 'package:maasapp/screens/travel_screen.dart';
+import 'package:maasapp/widgets/myprofileoption.dart';
 import 'package:maasapp/widgets/recent_destinations.dart';
 import 'package:provider/provider.dart';
 
@@ -15,17 +19,41 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 6,
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Text(
-            'Minha conta',
-            style: TextStyle(
-              color: Colors.black,
+        backgroundColor: Color(0xe5e5e5).withOpacity(1),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 3,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              label: 'Viajar',
             ),
-          ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.spatial_audio_off_outlined), label: 'Alertas'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+            )
+          ],
+          onTap: (value) {
+            var routeMap = {
+              0: MainScreen(),
+              1: TravelScreen(),
+              2: CreateAlertScreen(),
+              3: ProfileScreen()
+            };
+
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => routeMap[value],
+                transitionDuration: Duration(milliseconds: 200),
+                transitionsBuilder: (_, a, __, c) =>
+                    FadeTransition(opacity: a, child: c),
+              ),
+            );
+          },
         ),
         body: FutureBuilder(
           future: _refreshUser(context),
@@ -38,269 +66,162 @@ class ProfileScreen extends StatelessWidget {
                   onRefresh: (() => _refreshUser(context)),
                   child: Consumer<Users>(
                     builder: (context, userData, _) => Container(
+                      margin: EdgeInsets.only(left: 20, top: 40),
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
                             Container(
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(0, 255, 255, 255)
-                                      .withOpacity(1),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(.2),
-                                        blurRadius: 1,
-                                        spreadRadius: 1,
-                                        offset: Offset(0.5, 0.5))
-                                  ]),
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    height: 98,
-                                    width: double.infinity,
-                                    decoration:
-                                        BoxDecoration(color: Colors.red),
-                                    child: Image.network(
-                                      'https://th.bing.com/th/id/OIP.oGADUQSDXKxtpZFOy0zQegHaEK?pid=ImgDet&rs=1',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Container(
-                                      margin:
-                                          EdgeInsets.only(top: 10, left: 25),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 120,
-                                            height: 120,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.white30,
-                                                    width: 2),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(60)),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      color: Colors.black
-                                                          .withOpacity(.3),
-                                                      offset: Offset(1.0, 1.0),
-                                                      spreadRadius: 1,
-                                                      blurRadius: 1)
-                                                ]),
-                                            child: ClipRRect(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(60)),
-                                                child: Image.network(
-                                                  'https://th.bing.com/th/id/R.c50c244016c78766f218b25058827d50?rik=ES2%2fBHQn80B3xQ&riu=http%3a%2f%2fklinikamedyk.pl%2fimages%2f2018%2f07%2f04%2f1la.png&ehk=GJLJs0m6kceCnYTviE4%2f4%2bHE%2f09iwXCWPFxlfZj%2b%2ba0%3d&risl=&pid=ImgRaw&r=0',
-                                                  fit: BoxFit.cover,
-                                                )),
-                                          ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 120,
-                                              ),
-                                              Text(
-                                                userData.loggedUser.name ??
-                                                    'null',
-                                                style: TextStyle(
-                                                    fontFamily: 'Montserrat',
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                    fontSize: 20),
-                                              ),
-                                              SizedBox(
-                                                height: 25,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              height: 35,
-                              padding: EdgeInsets.only(left: 15, top: 7),
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 1, 149, 229)),
-                              child: Text(
-                                'Sobre',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Email',
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.black,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5))),
-                                    width: 301,
-                                    height: 28,
-                                    padding: EdgeInsets.only(
-                                      left: 12,
-                                    ),
-                                    child: TextFormField(
-                                      initialValue: userData.loggedUser.email,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Senha',
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.black,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5))),
-                                    width: 301,
-                                    height: 28,
-                                    padding: EdgeInsets.only(
-                                      left: 12,
-                                    ),
-                                    child: TextFormField(
-                                      initialValue: '*********',
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Telefone',
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.black,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5))),
-                                    width: 301,
-                                    height: 28,
-                                    padding: EdgeInsets.only(
-                                      left: 12,
-                                    ),
-                                    child: TextFormField(
-                                      initialValue: '+55 11 99999-9999',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              width: double.infinity,
-                              height: 35,
-                              padding: EdgeInsets.only(left: 15, top: 7),
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 1, 149, 229)),
-                              child: Text(
-                                'Preferências',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ),
-                            Container(
                               child: Row(
                                 children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.amber,
+                                    child: Text(
+                                      'C',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 21),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 30,
+                                  ),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text('Alertas de segurança'),
-                                          Switch(
-                                            value: true,
-                                            onChanged: (value) => {},
-                                          )
-                                        ],
+                                      Text(
+                                        userData.loggedUser.name,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
                                       ),
-                                      Row(
-                                        children: [
-                                          Text('Recomendações de eventos'),
-                                          Switch(
-                                            value: true,
-                                            onChanged: (value) => {},
-                                          )
-                                        ],
+                                      SizedBox(
+                                        height: 5,
                                       ),
-                                      Row(
-                                        children: [
-                                          Text('Alertas de mobilidade'),
-                                          Switch(
-                                            value: true,
-                                            onChanged: (value) => {},
-                                          )
-                                        ],
+                                      Text(
+                                        userData.loggedUser.email,
+                                        style: TextStyle(fontSize: 14),
                                       ),
-                                      Row(
-                                        children: [
-                                          Text('Alertas de clima'),
-                                          Switch(
-                                            value: true,
-                                            onChanged: (value) => {},
-                                          )
-                                        ],
-                                      )
                                     ],
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Container(
-                              width: double.infinity,
-                              height: 35,
-                              padding: EdgeInsets.only(left: 15, top: 7),
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 1, 149, 229)),
-                              child: Text(
-                                'Sessão',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
+                                width: double.infinity,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'MINHA CONTA',
+                                      style: TextStyle(),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 20),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                            20,
+                                          ),
+                                        ),
+                                        color: Colors.white,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          MyProfileOption(
+                                            func: null,
+                                            icon: Icons.person,
+                                            title: 'Meus dados',
+                                            subtitle:
+                                                'Minhas informações da conta',
+                                          ),
+                                          Divider(),
+                                          MyProfileOption(
+                                              func: null,
+                                              icon: Icons.credit_card,
+                                              title: 'Pagamentos',
+                                              subtitle:
+                                                  'Meus cartões e outros dados'),
+                                          Divider(),
+                                          MyProfileOption(
+                                            func: null,
+                                            icon: Icons.location_on_outlined,
+                                            title: 'Endereços',
+                                            subtitle:
+                                                'Meus endereços cadastrados',
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )),
+                            SizedBox(
+                              height: 20,
                             ),
-                            Center(
-                              child: ElevatedButton(
-                                child: Text('Sair'),
-                                onPressed: () {},
-                              ),
-                            )
+                            Container(
+                                width: double.infinity,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'SERVIÇOS',
+                                      style: TextStyle(),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 20),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                            20,
+                                          ),
+                                        ),
+                                        color: Colors.white,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          MyProfileOption(
+                                            func: null,
+                                            icon: Icons.question_mark_rounded,
+                                            title: 'Fale com o suporte',
+                                            subtitle:
+                                                'Suporte e dúvidas frequentes',
+                                          ),
+                                          Divider(),
+                                          MyProfileOption(
+                                            func: null,
+                                            icon: Icons.logout,
+                                            title: 'Sair',
+                                            subtitle: 'Sair do App',
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ))
                           ],
                         ),
                       ),

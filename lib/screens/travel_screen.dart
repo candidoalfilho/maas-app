@@ -4,6 +4,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maasapp/models/travel.dart';
+import 'package:maasapp/providers/locations.dart';
+import 'package:maasapp/providers/travels.dart';
+import 'package:maasapp/providers/users.dart';
+import 'package:provider/provider.dart';
 
 class TravelScreen extends StatefulWidget {
   TravelScreen({Key key}) : super(key: key);
@@ -26,6 +31,7 @@ class _TravelScreenState extends State<TravelScreen> {
   Position _currentPosition;
 
   final startAddressController = TextEditingController();
+  final _endAddressController = TextEditingController();
 
   _getCurrentLocation() async {
     await _geolocator
@@ -143,7 +149,9 @@ class _TravelScreenState extends State<TravelScreen> {
                             borderRadius: BorderRadius.circular(5),
                             child: Container(
                               color: Colors.grey.shade300,
-                              child: TextFormField(),
+                              child: TextFormField(
+                                controller: _endAddressController,
+                              ),
                             ),
                           ),
                         )
@@ -165,6 +173,28 @@ class _TravelScreenState extends State<TravelScreen> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  var travel = Travel(
+                      startTime: DateTime.now(),
+                      endTime: DateTime.now().add(Duration(minutes: 10)),
+                      startPoint: startAddressController.text,
+                      endPoint: _endAddressController.text,
+                      destinyName: 'Destino recente',
+                      rating: 4,
+                      travelMethod: 'A pé',
+                      userId:
+                          Provider.of<Users>(context, listen: false).userId);
+                  Provider.of<Travels>(context, listen: false)
+                      .addTravel(travel);
+                },
+                child: Text(
+                  'Registrar viagem',
+                ),
+              )
             ],
           ),
         ),

@@ -4,8 +4,8 @@ class Travel with ChangeNotifier {
   final String id;
   final String userId;
   final String destinyName;
-  final Map<String, String> startPoint;
-  final Map<String, String> endPoint;
+  final String startPoint;
+  final String endPoint;
   final double rating;
   final DateTime startTime;
   final DateTime endTime;

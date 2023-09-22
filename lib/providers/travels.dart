@@ -59,6 +59,31 @@ class Travels with ChangeNotifier {
     }
   }
 
+  Future<void> addTravel(Travel travel) async {
+    var url = Uri.parse(
+      'https://maasapp-ce83f-default-rtdb.firebaseio.com/travels.json?auth=$authToken',
+    );
+
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode(
+          {
+            'userId': userId,
+            'destinyName': travel.destinyName,
+            'startPoint': travel.startPoint,
+            'endPoint': travel.endPoint,
+            'rating': travel.rating.toString(),
+            'startTime': travel.startTime.toString(),
+            'endTime': travel.endTime.toString(),
+            'travelMethod': travel.travelMethod
+          },
+        ),
+      );
+      notifyListeners();
+    } catch (error) {}
+  }
+
   //   Future<void> addCompetition(Travel travel, String leagueId) async {
   //   final url = Uri.parse(
   //       'https://fit-league-c67d9-default-rtdb.firebaseio.com/competitions.json?auth=$authToken');

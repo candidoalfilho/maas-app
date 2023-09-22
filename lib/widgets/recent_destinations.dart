@@ -30,6 +30,7 @@ class RecentDestinations extends StatelessWidget {
         )
       },
       child: Container(
+        margin: EdgeInsets.only(bottom: 20),
         height: 107,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),

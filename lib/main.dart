@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maasapp/providers/alerts.dart';
 import 'package:maasapp/providers/auth.dart';
+import 'package:maasapp/providers/locations.dart';
 import 'package:maasapp/providers/travels.dart';
 import 'package:maasapp/providers/users.dart';
 import 'package:maasapp/screens/auth_screen.dart';
@@ -43,10 +44,17 @@ class MyApp extends StatelessWidget {
               previousData == null ? [] : previousData.alerts,
             ),
           ),
+          ChangeNotifierProxyProvider<Auth, Locations>(
+            update: (ctx, auth, previousData) => Locations(
+              auth.token,
+              auth.userId,
+              previousData == null ? [] : previousData.locations,
+            ),
+          ),
         ],
         child: Consumer<Auth>(
           builder: (ctx, authData, _) => MaterialApp(
-            debugShowCheckedModeBanner: false,
+            debugShowCheckedModeBanner: true,
             title: 'Fit League',
             theme: ThemeData(
                 primarySwatch: Colors.blue,
